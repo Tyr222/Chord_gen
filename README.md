@@ -23,4 +23,20 @@ If you want to clone this repository and run it on your machine, follow these st
 
 1. Clone the repository:
 ```bash
-git clone [https://github.com/Tyr222/chord-gen.git](https://github.com/Tyr222/chord-gen.git)
+git clone https://github.com/Tyr222/chord-gen.git
+```
+
+2. Enter the project folder:
+```bash
+cd chord-gen
+```
+
+3. Install the dependencies listed in requirements.txt:
+```bash
+pip install -r requirements.txt
+```
+
+4. Run the app via Streamlit:
+```bash
+streamlit run chord_gen.py
+```
