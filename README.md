@@ -1,42 +1,102 @@
-# 🎵 CHORD GEN
+# 🎵 ChordGen
 
-**CHORD GEN** is an automatic harmonic progression generator built with Python. It creates musical logic based on real music theory, generates MIDI files instantly, and renders an audio synthesizer directly in the browser so the user can listen to the composition.
+Gerador automático de progressões harmônicas, construído com Python (Flask)
+no backend e HTML/CSS/JavaScript puro no frontend.
 
-## 🚀 Features
+🔗 **Acesse o site:** [link do Render aqui]
 
-* **Smart Generation:** Creates mathematically coherent chord progressions within Major and Minor modes, ensuring the presence of the root note (tonic).
-* **Customization:** Allows the user to choose the Key, the tempo (BPM), and the exact number of chords in the progression.
-* **Integrated Web Synthesizer:** Uses the Google Magenta engine via JavaScript to play the generated MIDI files directly in the browser, using real piano sounds.
-* **Dynamic Chords:** Displays the names of the generated chords in real-time on the interface to facilitate study or application of the harmony on real instruments.
+![preview](./preview.png)
 
-## 🛠️ Technologies Used
+---
 
-* **Python:** Main language responsible for all backend logic and scale calculations.
-* **Streamlit:** Framework used to build the entire web interface (Front-end) quickly and reactively.
-* **MidiUtil:** Python library responsible for writing the notes, durations, and beats into a physical `.mid` file.
-* **Google Magenta:** Web/JavaScript component injected into the code to synthesize and play the audio.
-* **HTML/CSS:** Used natively within Streamlit to style buttons, colors, and interface responsiveness.
+## Sobre o projeto
 
-## 💻 How to run the project locally
+O ChordGen gera progressões harmônicas com base na teoria musical. Você
+escolhe o tom, o modo (Maior, Menor Natural ou Menor Harmônico) e a
+quantidade de acordes (4, 6 ou 8), e o algoritmo monta uma progressão
+coerente, mostrando a cifra de cada acorde e seu grau na escala (I, IV,
+V, vi...). Também é possível ouvir o resultado direto no navegador.
 
-If you want to clone this repository and run it on your machine, follow these steps:
+Esse projeto nasceu como um gerador em Python com Streamlit. Decidi
+reconstruí-lo do zero como um mini site (Flask + HTML/CSS/JS puro) como
+forma de sair da minha zona de conforto e aprender front-end na prática,
+sem depender de frameworks prontos.
 
-1. Clone the repository:
+## Desafios enfrentados
+
+Esse foi meu primeiro projeto usando JavaScript puro, então grande parte
+do trabalho foi aprender fazendo. Alguns pontos que mais me desafiaram:
+
+- **Assincronismo**: entender como o `fetch` busca dados do backend Flask
+  sem travar a página, e só atualizar a tela depois que a resposta chega.
+- **Manipulação do DOM**: montar os cards de acorde dinamicamente com
+  `createElement`/`appendChild`, em vez de já ter o HTML pronto.
+- **Estilização de elementos nativos**: customizar os `<select>` de Tom e
+  Modo (removendo a aparência padrão do navegador com `appearance: none`
+  e criando uma seta customizada via SVG em Data URI) sem perder a
+  funcionalidade nativa.
+- **Depuração de bugs sutis**: por exemplo, uma comparação que checava se
+  um grau (string) estava dentro de uma lista de notas MIDI (números) —
+  parecia funcionar, mas sempre caía no mesmo resultado errado.
+- **Layout com Flexbox**: alinhar os cards de acorde e o painel de
+  configuração pra ficarem fiéis ao design original do Figma, mesmo com
+  quantidades diferentes de acordes.
+
+## Stack técnica
+
+**Backend**
+- Python + Flask
+- Rota `/gerar` recebe tom, modo e quantidade via query string e retorna
+  um JSON com o MIDI da progressão (em base64), a lista de cifras e os
+  graus harmônicos
+- `MIDIUtil` para montar o arquivo MIDI em memória (`io.BytesIO`), evitando
+  colisão entre requisições simultâneas
+- `gunicorn` como servidor de produção
+
+**Frontend**
+- HTML, CSS e JavaScript vanilla, sem frameworks
+- `fetch` (async/await) para consumir a rota `/gerar`
+- Renderização dinâmica dos cards de acorde via manipulação do DOM
+- [`html-midi-player`](https://github.com/cifkao/html-midi-player) para
+  reproduzir o áudio da progressão direto no navegador, usando o
+  soundfont `sgm_plus` do Google
+
+**CDNs / recursos externos**
+- [Font Awesome](https://fontawesome.com/) — ícones (navbar, botão "Gerar")
+- [Google Fonts](https://fonts.google.com/) — JetBrains Mono (elementos
+  técnicos) e Inter/Space Grotesk (títulos)
+- `html-midi-player` via CDN — componente Web Component que renderiza o
+  player de áudio
+- Soundfont `sgm_plus` (Google) — usado pelo `html-midi-player` pra
+  sintetizar o som dos acordes no navegador
+
+## Como rodar localmente
+
 ```bash
-git clone https://github.com/Tyr222/chord-gen.git
-```
+# Clone o repositório
+git clone https://github.com/Tyr222/Chord_gen.git
+cd Chord_gen
 
-2. Enter the project folder:
-```bash
-cd chord-gen
-```
+# Crie e ative um ambiente virtual
+python -m venv venv
+venv\Scripts\activate      # Windows
+source venv/bin/activate   # Linux/Mac
 
-3. Install the dependencies listed in requirements.txt:
-```bash
+# Instale as dependências
 pip install -r requirements.txt
+
+# Rode o servidor
+flask run
 ```
 
-4. Run the app via Streamlit:
-```bash
-streamlit run chord_gen.py
-```
+Depois é só acessar `http://127.0.0.1:5000` no navegador.
+
+## Próximos passos
+
+- Integrar geração de progressões com IA, buscando resultados mais
+  coerentes musicalmente
+- Explorar o uso do Claude Code no desenvolvimento do projeto
+
+## Licença
+
+Este projeto está sob a licença MIT.
