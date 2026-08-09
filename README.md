@@ -3,7 +3,7 @@
 Gerador automático de progressões harmônicas, construído com Python (Flask)
 no backend e HTML/CSS/JavaScript puro no frontend.
 
-🔗 **Acesse o site:** [link do Render aqui]
+🔗 **Acesse o site:** https://chord-gen.onrender.com/
 
 ![preview](./preview.png)
 
