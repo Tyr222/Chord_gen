@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>ChordGen</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+    rel="stylesheet">
+  <!-- ///Usando o Defer o script é baixado em PARALELO com a renderização do resto da página! -->
+  <script
+    src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"
+    defer></script>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="nome">
+      <i class="fa-solid fa-music"></i>
+      CHORD<span class="destaque">GEN</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="https://www.linkedin.com/in/nathan-pereira-0406381a7/" target="_blank">Linkedin</a></li>
+      <li><a href="https://github.com/Tyr222" target="_blank">GitHub</a></li>
+    </ul>
+  </nav>
+  <section class="intro">
+    <div class="first-sec">
+      <div class="badge-pill">
+        ● Primeiro projeto com JS
+      </div>
+      <h1 class="primeiro-texto">Progressões harmônicas</h1>
+      <h1 class="text-primary">geradas algoritmicamente</h1>
+      <p class="about">Configure a tonalidade, o modo e o comprimento.
+        <br>O algoritmo irá gerar uma progressão aleatória
+        baseado nas opções selecionadas.
+      </p>
+    </div>
+  </section>
+  <section class="painel">
+    <div class="options">
+      <div class="campo-tom">
+        <label for="tom"> Tom </label>
+        <select id="tom">
+          {%for tom in tons%}
+          <option value="{{tom}}">{{tom}}</option>
+          {% endfor %}
+        </select>
+        <label for="modo"> Modo </label>
+        <select id="modo">
+          {% for modo in modos %}
+          <option value="{{modo}}">{{modo}}</option>
+          {% endfor %}
+        </select>
+        <label for="qtde-acordes">Acordes</label>
+        <div class="qtde-acordes">
+          <button id="btn-4" data-valor="4" class="btn-qtd ativo">4</button>
+          <button id="btn-6" data-valor="6">6</button>
+          <button id="btn-8" data-valor="8">8</button>
+        </div>
+        <button type="button" id="btn-gerar" class="btn-gerar">
+          <i class="fa-solid fa-arrows-rotate"></i> Gerar
+        </button>
+      </div>
+      <div class="display">
+        <div class="display-cifras" id="display-cifras">
+          <div class="card-acorde">C</div>
+          <div class="card-acorde">Em</div>
+          <div class="card-acorde">G</div>
+          <div class="card-acorde">Am</div>
+        </div>
+      </div>
+      <div id="player-container">
+        <p id="player-placeholder">Nenhum áudio gerado ainda. Clique em "Gerar" ▶</p>
+      </div>
+    </div>
+  </section>
+  <script>
+    function desenharCards(lista, graus) {
+      const container = document.querySelector("#display-cifras");
+      container.innerHTML = "";
+
+      lista.forEach((cifra, indice) => {
+        const card = document.createElement("div");
+        card.classList.add("card-acorde");
+
+        const seta = document.createElement("span");
+        seta.classList.add("seta");
+        seta.textContent = "→"
+
+        const spanCifra = document.createElement("span");
+        spanCifra.classList.add("cifra");
+        spanCifra.textContent = cifra;
+
+        const spanGrau = document.createElement("span");
+        spanGrau.classList.add("grau");
+        spanGrau.textContent = graus[indice];
+
+        card.appendChild(spanCifra);
+        card.appendChild(spanGrau);
+
+        container.appendChild(card);
+        if (indice !== lista.length - 1) {
+          container.appendChild(seta);
+        }
+
+
+      });
+    }
+    desenharCards(["C", "Am", "F", "G"], ["I", "vi", "IV", "V"]);
+
+
+    const btnGerar = document.querySelector("#btn-gerar");
+    const selectTom = document.querySelector("#tom");
+    const selectModo = document.querySelector("#modo");
+    const btn4 = document.querySelector("#btn-4");
+    const btn6 = document.querySelector("#btn-6");
+    const btn8 = document.querySelector("#btn-8");
+    let quantidadeEscolhida = 4;
+
+    btn4.addEventListener("click", () => {
+      quantidadeEscolhida = 4;
+      btn4.classList.add("ativo");
+      btn6.classList.remove("ativo");
+      btn8.classList.remove("ativo");
+    });
+
+    btn6.addEventListener("click", () => {
+      quantidadeEscolhida = 6;
+      btn6.classList.add("ativo");
+      btn4.classList.remove("ativo");
+      btn8.classList.remove("ativo");
+    });
+
+    btn8.addEventListener("click", () => {
+      quantidadeEscolhida = 8;
+      btn8.classList.add("ativo");
+      btn4.classList.remove("ativo");
+      btn6.classList.remove("ativo");
+    });
+
+    btnGerar.addEventListener("click", async () => {
+      try {
+        await Tone.start();
+        let container = document.getElementById("player-container")
+        container.innerHTML = ""
+        let player = document.querySelector('#player');
+        if (!player) {
+          player = document.createElement("midi-player");
+          player.classList.add("meu-player")
+          player.id = "player";
+          player.setAttribute("sound-font", "https://storage.googleapis.com/magentadata/js/soundfonts/sgm_plus")
+          document.querySelector('#player-container').appendChild(player)
+        }
+
+        const response = await fetch(
+          `/gerar?tom=${encodeURIComponent(selectTom.value)}&modo=${encodeURIComponent(selectModo.value)}&quantidade=${quantidadeEscolhida}`,
+        );
+        if (!response.ok) {
+          throw new Error(`Status de Resposta: ${response.status}`);
+        }
+        const result = await response.json();
+        player.src = `data:audio/midi;base64,${result.midi}`;
+        desenharCards(result.lista, result.graus)
+      } catch (error) {
+        console.error(error.message);
+      }
+    });
+  </script>
+</body>
+
+</html>

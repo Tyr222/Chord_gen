@@ -1,0 +1,254 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+
+body {
+  background-image: url("background.jpg");
+  background-position: center;
+  background-size: cover;
+  font-family: monospace;
+}
+
+.intro {
+  padding: 0;
+  margin-top: 1.2cm;
+  text-align: center;
+  color: blanchedalmond;
+}
+
+.badge-pill {
+  font-size: 1rem;
+  border-radius: 999px;
+  padding: 6px 14px;
+  border: 1px solid #A647D1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.primeiro-texto {
+  font-size: 2rem;
+}
+
+.text-primary {
+  font-size: 2rem;
+  color: #A647D1;
+}
+
+.about {
+  font-size: 1.1rem;
+}
+
+.painel {
+  width: 25.2cm;
+  padding: 5px;
+  margin-top: 1.2cm;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  border-radius: 18px;
+  background-color: rgba(69, 35, 133, 0.85);
+}
+
+.options {
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  height: min-content;
+  gap: 10px;
+  min-height: 235px;
+}
+
+#player-placeholder {
+  color: antiquewhite;
+  font-size: 1.2rem;
+  margin-top: 32px;
+}
+
+select {
+  -webkit-appearance: none;
+  appearance: none;
+  --seta-select: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9L12 15L18 9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="%23E8DEED"/></svg>');
+  background-image: var(--seta-select);
+  background-repeat: no-repeat;
+  background-position: right 0px center;
+  background-size: 18px;
+  background-color: #1a1530;
+  color: antiquewhite;
+  border: 2px solid #1a1530;
+  border-radius: 8px;
+  padding: 6px 18px 6px 14px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+select:hover,
+select:active {
+  background-image: var(--seta-select);
+  background-repeat: no-repeat;
+  background-position: right 0px center;
+  background-size: 18px;
+}
+
+select:hover {
+  background-color: #7c3aed;
+}
+
+select:active {
+  background-color: #6d28d9;
+}
+
+button {
+  margin-bottom: 10px;
+  -webkit-appearance: none;
+  appearance: none;
+  border: 2px solid #1a1530;
+  border-radius: 6px;
+  background-color: #1a1530;
+  color: antiquewhite;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #7c3aed;
+}
+
+button:active {
+  background-color: #6d28d9;
+}
+
+.campo-tom {
+  border-bottom: 1.5px solid hsl(0, 0%, 100%);
+  gap: 10px;
+  display: flex;
+  margin-left: auto;
+}
+
+.campo-tom label {
+  font-size: 1.3rem;
+  color: white;
+  margin-right: 5px;
+}
+
+
+.qtde-acordes {
+  display: flex;
+  gap: 10px;
+}
+
+.ativo {
+  background-color: #7c3aed;
+  color: antiquewhite;
+}
+
+.btn-gerar {
+  margin: 0px 0px 10px 369px;
+  padding: 2px 2px 2px 2px;
+  display: inline-flex;
+  align-items: center;
+}
+
+
+.display {
+  display: flex;
+  justify-content: center;
+}
+
+.display-cifras {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.card-acorde {
+  min-width: 90px;
+  min-height: 90px;
+  background-color: #1a1530;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.cifra {
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 10px;
+  font-size: 1.5rem;
+}
+
+.grau {
+  padding-top: 20px;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.seta {
+  margin-top: 25px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: antiquewhite;
+}
+
+.meu-player {
+  margin-top: 20px;
+
+}
+
+.navbar {
+  color: whitesmoke;
+  background-color: #1a1530;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  height: 50px;
+  gap: 10px;
+}
+
+.fa-music {
+  margin-right: 5px;
+}
+
+
+.nome {
+  font-size: 18px;
+}
+
+.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.nav-links li {
+  padding: 0 15px;
+}
+
+.nav-links a {
+  color: antiquewhite;
+  text-decoration: none;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: #A647D1;
+}
+
+.destaque {
+  color: #A647D1;
+}
